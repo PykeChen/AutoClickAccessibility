@@ -2,18 +2,15 @@ package com.mostone.tikaaccessibility
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.mostone.tikaaccessibility.accessibility.base.TiKaAccessibilityService
 import com.mostone.tikaaccessibility.databinding.ItemServiceBinding
+import com.mostone.tikaaccessibility.utils.commonDialog
 import com.mostone.tikaaccessibility.utils.debounceClick
-import com.mostone.tikaaccessibility.utils.isAccessibilityEnabled
-import com.mostone.tikaaccessibility.utils.isAccessibilitySettingsOn
 
-class AccessibilityAdapter(private val context: Context) :
+class AccessibilityAdapter(val context: Context) :
     RecyclerView.Adapter<AccessibilityAdapter.AccessibilityViewHolder>() {
 
     private val mServices = mutableListOf<AccessibilityMode>()
@@ -42,7 +39,7 @@ class AccessibilityAdapter(private val context: Context) :
         with(holder.binding) {
             title.text = item.serviceName
             description.text = item.description
-            val running = item.service.idleState()
+            val running = !item.service.idleState()
             status.text = if (running) mRunningText else mIdleText
             status.setCompoundDrawablesWithIntrinsicBounds(
                 null,
@@ -51,7 +48,7 @@ class AccessibilityAdapter(private val context: Context) :
                 null
             )
             root.debounceClick {
-
+                commonDialog(item, position)
             }
         }
     }

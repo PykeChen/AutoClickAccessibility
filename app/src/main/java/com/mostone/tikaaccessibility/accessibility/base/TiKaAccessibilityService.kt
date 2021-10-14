@@ -12,7 +12,7 @@ class TiKaAccessibilityService : AccessibilityService(), ITiKaAccessibilityServi
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         tkServices.forEach {
-            if (it.service.idleState()) {
+            if (!it.service.idleState()) {
                 it.service.onAccessibilityEvent(event, this)
             }
         }
@@ -20,7 +20,7 @@ class TiKaAccessibilityService : AccessibilityService(), ITiKaAccessibilityServi
 
     override fun onInterrupt() {
         tkServices.forEach {
-            if (it.service.idleState()) {
+            if (!it.service.idleState()) {
                 it.service.onInterrupt(this)
             }
         }

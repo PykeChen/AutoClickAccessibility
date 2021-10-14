@@ -15,25 +15,25 @@
         app:title="服务列表"
         app:titleTextAppearance="@style/NavTitle" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/accessibilityOpenEntrance"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@android:color/holo_red_light"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="16dp"
-        android:text="@string/accessibility_tip"
-        android:textColor="@color/white"
-        app:drawableEndCompat="@drawable/ic_arrow_right"
-        app:drawableTint="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/accessibilityTitle" />
+<!--    <androidx.appcompat.widget.AppCompatTextView-->
+<!--        android:id="@+id/accessibilityOpenEntrance"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="45dp"-->
+<!--        android:background="@android:color/holo_red_light"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:paddingHorizontal="16dp"-->
+<!--        android:text="@string/accessibility_tip"-->
+<!--        android:textColor="@color/white"-->
+<!--        app:drawableEndCompat="@drawable/ic_arrow_right"-->
+<!--        app:drawableTint="@color/white"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/accessibilityTitle" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/accessibilityList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/accessibilityOpenEntrance"
+        app:layout_constraintTop_toBottomOf="@id/accessibilityTitle"
         tools:listitem="@layout/item_service" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

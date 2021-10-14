@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">TiKaAccessibility</string>
     <string name="accessibility_tip">未开启无障碍服务</string>
+    <string name="confirm_title">提示</string>
+    <string name="accessibility_go">前往</string>
+    <string name="accessibility_open">启动</string>
+    <string name="accessibility_close">关闭</string>
 </resources>

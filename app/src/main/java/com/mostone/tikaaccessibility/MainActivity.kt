@@ -1,14 +1,12 @@
 package com.mostone.tikaaccessibility
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.afollestad.materialdialogs.MaterialDialog
 import com.mostone.tikaaccessibility.accessibility.SendMsgService
-import com.mostone.tikaaccessibility.accessibility.base.TiKaAccessibilityService
 import com.mostone.tikaaccessibility.accessibility.base.tkServices
 import com.mostone.tikaaccessibility.databinding.ActivityMainBinding
-import com.mostone.tikaaccessibility.utils.debounceClick
 import com.mostone.tikaaccessibility.utils.goAccess
 import com.mostone.tikaaccessibility.utils.initImmersionBar
 import com.mostone.tikaaccessibility.utils.isAccessibilityEnabled
@@ -21,6 +19,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mBinding: ActivityMainBinding
 
+    private var mDialog: MaterialDialog? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = ActivityMainBinding.inflate(layoutInflater)
@@ -32,8 +32,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        mBinding.accessibilityOpenEntrance.visibility =
-            if (isAccessibilityEnabled()) View.GONE else View.VISIBLE
+        if (!isAccessibilityEnabled()) {
+            if (mDialog == null) {
+                mDialog = MaterialDialog(this).cancelable(false)
+                    .title(R.string.confirm_title)
+                    .message(R.string.accessibility_tip)
+                    .positiveButton(R.string.accessibility_go) {
+                        goAccess()
+                    }
+            }
+            mDialog?.show()
+        }
     }
 
     private fun initView() {
@@ -41,9 +50,6 @@ class MainActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = mAdapter
             mAdapter.submitList(tkServices)
-        }
-        mBinding.accessibilityOpenEntrance.debounceClick {
-            goAccess()
         }
     }
 

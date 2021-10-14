@@ -1,7 +1,11 @@
 package com.mostone.tikaaccessibility.utils
 
+import android.content.res.Resources
 import android.os.SystemClock
 import android.view.View
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.gyf.immersionbar.ktx.immersionBar
@@ -15,7 +19,7 @@ fun FragmentActivity.initImmersionBar(topView: View) {
     }
 }
 
-fun Fragment.initImmersionBar(topView: View){
+fun Fragment.initImmersionBar(topView: View) {
     immersionBar {
         titleBar(topView)
         statusBarDarkFont(true)
@@ -23,6 +27,16 @@ fun Fragment.initImmersionBar(topView: View){
         autoNavigationBarDarkModeEnable(true)
     }
 }
+
+fun getStringKtx(@StringRes id: Int) = getAppContext().getString(id)
+
+fun getDrawableKtx(@DrawableRes id: Int) = ContextCompat.getDrawable(getAppContext(), id)
+
+fun dp2px(dpValue: Float): Float {
+    val scale = Resources.getSystem().displayMetrics.density
+    return dpValue * scale + 0.5f
+}
+
 
 fun View.debounceClick(action: () -> Unit) {
     val actionDebounce = ActionDebounce(action, 1000, false)
