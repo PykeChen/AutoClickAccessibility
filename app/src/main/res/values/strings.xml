@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TiKaAccessibility</string>
+    <string name="accessibility_tip">未开启无障碍服务</string>
 </resources>

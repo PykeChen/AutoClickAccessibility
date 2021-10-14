@@ -4,17 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/sendMsg"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/accessibilityTitle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="启动自动发消息服务"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="服务列表"
+        app:titleTextAppearance="@style/NavTitle" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/accessibilityOpenEntrance"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@android:color/holo_red_light"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp"
+        android:text="@string/accessibility_tip"
+        android:textColor="@color/white"
+        app:drawableEndCompat="@drawable/ic_arrow_right"
+        app:drawableTint="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/accessibilityTitle" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/accessibilityList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/accessibilityOpenEntrance"
+        tools:listitem="@layout/item_service" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

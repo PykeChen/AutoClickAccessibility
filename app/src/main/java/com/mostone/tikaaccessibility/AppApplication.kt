@@ -11,14 +11,6 @@ class AppApplication : Application() {
         @SuppressLint("StaticFieldLeak")
         lateinit var context: Context
 
-        /**
-         * 前往开启辅助服务界面
-         */
-        fun goAccess() {
-            val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            context.startActivity(intent)
-        }
     }
 
     override fun attachBaseContext(base: Context) {

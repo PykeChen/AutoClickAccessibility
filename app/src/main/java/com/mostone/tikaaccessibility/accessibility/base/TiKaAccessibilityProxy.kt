@@ -1,47 +1,21 @@
-package com.mostone.tikaaccessibility.accessibility
+package com.mostone.tikaaccessibility.accessibility.base
 
 import android.accessibilityservice.AccessibilityService
-import android.accessibilityservice.AccessibilityServiceInfo
-import android.content.Context
 import android.os.Bundle
-import android.view.accessibility.AccessibilityEvent
-import android.view.accessibility.AccessibilityManager
 import android.view.accessibility.AccessibilityNodeInfo
-import com.mostone.tikaaccessibility.AppApplication
+import com.mostone.tikaaccessibility.accessibility.base.contact.ITiKaAccessibilityService
 
+class TiKaAccessibilityProxy(private val service: ITiKaAccessibilityService) {
 
-open class BaseAccessibilityService : AccessibilityService() {
-    private val mAccessibilityManager: AccessibilityManager by lazy(LazyThreadSafetyMode.NONE) {
-        AppApplication.context.getSystemService(ACCESSIBILITY_SERVICE) as AccessibilityManager
-    }
-    private val mContext: Context by lazy(LazyThreadSafetyMode.NONE) {
-        AppApplication.context
-    }
-
-
-    /**
-     * Check当前辅助服务是否启用
-     *
-     * @param serviceName serviceName
-     * @return 是否启用
-     */
-    protected fun checkAccessibilityEnabled(serviceName: String): Boolean {
-        val accessibilityServices =
-            mAccessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC)
-        for (info in accessibilityServices) {
-            if (info.id == serviceName) {
-                return true
-            }
-        }
-        return false
-    }
+    fun getRootInActiveWindow(): AccessibilityNodeInfo? =
+        service.getCurrService()?.rootInActiveWindow
 
     /**
      * 模拟点击事件
      *
      * @param node nodeInfo
      */
-    protected fun performViewClick(node: AccessibilityNodeInfo?) {
+    fun performViewClick(node: AccessibilityNodeInfo?) {
         var nodeInfo = node
         if (nodeInfo == null) {
             return
@@ -58,37 +32,37 @@ open class BaseAccessibilityService : AccessibilityService() {
     /**
      * 模拟返回操作
      */
-    protected fun performBackClick() {
+    fun performBackClick() {
         try {
             Thread.sleep(500)
         } catch (e: InterruptedException) {
             e.printStackTrace()
         }
-        performGlobalAction(GLOBAL_ACTION_BACK)
+        service.getCurrService()?.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK)
     }
 
     /**
      * 模拟下滑操作
      */
-    protected fun performScrollBackward() {
+    fun performScrollBackward() {
         try {
             Thread.sleep(500)
         } catch (e: InterruptedException) {
             e.printStackTrace()
         }
-        performGlobalAction(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD)
+        service.getCurrService()?.performGlobalAction(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD)
     }
 
     /**
      * 模拟上滑操作
      */
-    protected fun performScrollForward() {
+    fun performScrollForward() {
         try {
             Thread.sleep(500)
         } catch (e: InterruptedException) {
             e.printStackTrace()
         }
-        performGlobalAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD)
+        service.getCurrService()?.performGlobalAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD)
     }
 
     /**
@@ -98,11 +72,11 @@ open class BaseAccessibilityService : AccessibilityService() {
      * @param clickable 该View是否可以点击
      * @return View
      */
-    protected fun findViewByText(
+    fun findViewByText(
         text: String,
         clickable: Boolean = false
     ): AccessibilityNodeInfo? {
-        val accessibilityNodeInfo = rootInActiveWindow ?: return null
+        val accessibilityNodeInfo = getRootInActiveWindow() ?: return null
         val nodeInfoList = accessibilityNodeInfo.findAccessibilityNodeInfosByText(text)
         if (nodeInfoList != null && nodeInfoList.isNotEmpty()) {
             for (nodeInfo in nodeInfoList) {
@@ -120,8 +94,8 @@ open class BaseAccessibilityService : AccessibilityService() {
      * @param id id
      * @return View
      */
-    protected fun findViewByID(id: String): AccessibilityNodeInfo? {
-        val accessibilityNodeInfo = rootInActiveWindow ?: return null
+    fun findViewByID(id: String): AccessibilityNodeInfo? {
+        val accessibilityNodeInfo = getRootInActiveWindow() ?: return null
         val nodeInfoList = accessibilityNodeInfo.findAccessibilityNodeInfosByViewId(id)
         if (nodeInfoList != null && nodeInfoList.isNotEmpty()) {
             for (nodeInfo in nodeInfoList) {
@@ -133,8 +107,8 @@ open class BaseAccessibilityService : AccessibilityService() {
         return null
     }
 
-    protected fun clickTextViewByText(text: String) {
-        val accessibilityNodeInfo = rootInActiveWindow ?: return
+    fun clickTextViewByText(text: String) {
+        val accessibilityNodeInfo = getRootInActiveWindow() ?: return
         val nodeInfoList = accessibilityNodeInfo.findAccessibilityNodeInfosByText(text)
         if (nodeInfoList != null && nodeInfoList.isNotEmpty()) {
             for (nodeInfo in nodeInfoList) {
@@ -146,8 +120,8 @@ open class BaseAccessibilityService : AccessibilityService() {
         }
     }
 
-    protected fun clickTextViewByID(id: String) {
-        val accessibilityNodeInfo = rootInActiveWindow ?: return
+    fun clickTextViewByID(id: String) {
+        val accessibilityNodeInfo = getRootInActiveWindow() ?: return
         val nodeInfoList = accessibilityNodeInfo.findAccessibilityNodeInfosByViewId(id)
         if (nodeInfoList != null && nodeInfoList.isNotEmpty()) {
             for (nodeInfo in nodeInfoList) {
@@ -165,7 +139,7 @@ open class BaseAccessibilityService : AccessibilityService() {
      * @param nodeInfo nodeInfo
      * @param text     text
      */
-    protected fun inputText(nodeInfo: AccessibilityNodeInfo, text: String) {
+    fun inputText(nodeInfo: AccessibilityNodeInfo, text: String) {
         val arguments = Bundle()
         arguments.putCharSequence(
             AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE,
@@ -173,7 +147,4 @@ open class BaseAccessibilityService : AccessibilityService() {
         )
         nodeInfo.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments)
     }
-
-    override fun onAccessibilityEvent(event: AccessibilityEvent) {}
-    override fun onInterrupt() {}
 }

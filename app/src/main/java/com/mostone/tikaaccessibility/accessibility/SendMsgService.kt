@@ -1,21 +1,19 @@
 package com.mostone.tikaaccessibility.accessibility
 
 import android.view.accessibility.AccessibilityEvent
+import com.mostone.tikaaccessibility.accessibility.base.TikaAccessibilitySubProxy
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class TestAccessibilityService : BaseAccessibilityService() {
-
+class SendMsgService : TikaAccessibilitySubProxy() {
     private val mInputId = "com.mostone.tika:id/et_input"
     private val mSendId = "com.mostone.tika:id/btn_send"
 
     private val scope = CoroutineScope(Dispatchers.Main)
 
-    override fun onAccessibilityEvent(event: AccessibilityEvent) {
-        super.onAccessibilityEvent(event)
-
+    override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         val inputView = findViewByID(mInputId)
         val sendText = "无障碍服务测试"
         scope.launch {
@@ -28,10 +26,6 @@ class TestAccessibilityService : BaseAccessibilityService() {
                 }
             }
         }
-
     }
 
-    companion object {
-        const val TAG = "TestAccessibility"
-    }
 }
