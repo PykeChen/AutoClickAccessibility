@@ -17,7 +17,7 @@ class AccessibilityAdapter(val context: Context) :
 
     private val mIdleText = "空闲中"
 
-    private val mRunningText = "已启动"
+    private val mRunningText = "已启用"
 
     private val mIdleRes by lazy(LazyThreadSafetyMode.NONE) {
         ContextCompat.getDrawable(context, R.drawable.bg_idle)

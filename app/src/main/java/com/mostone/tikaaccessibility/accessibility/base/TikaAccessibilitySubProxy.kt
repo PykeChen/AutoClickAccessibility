@@ -5,6 +5,7 @@ import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import com.mostone.tikaaccessibility.accessibility.base.contact.ITiKaAccessibilityService
 import com.mostone.tikaaccessibility.accessibility.base.contact.ITiKaAccessibilitySubProxy
+import kotlinx.coroutines.*
 
 abstract class TikaAccessibilitySubProxy : ITiKaAccessibilitySubProxy {
 
@@ -13,6 +14,18 @@ abstract class TikaAccessibilitySubProxy : ITiKaAccessibilitySubProxy {
     protected var mRealService: AccessibilityService? = null
 
     protected var mIdle = true
+
+    protected val mExtrasData = mutableMapOf<String, Any>()
+
+    private var mCoroutineScope = CoroutineScope(Dispatchers.Main)
+        get() {
+            if (!field.isActive) {
+                field = CoroutineScope(Dispatchers.Main)
+            }
+            return field
+        }
+
+    private val mViewActionJobMap = mutableMapOf<String, Job?>()
 
     override fun onAccessibilityEvent(
         event: AccessibilityEvent?,
@@ -31,8 +44,18 @@ abstract class TikaAccessibilitySubProxy : ITiKaAccessibilitySubProxy {
         return mIdle
     }
 
+    override fun getExtrasData(): MutableMap<String, Any> = mExtrasData
+
     override fun switchIdleState() {
         mIdle = !mIdle
+        if (mIdle) {
+            mCoroutineScope.cancel()
+        }
+    }
+
+    override fun dispose() {
+        mCoroutineScope.cancel()
+        mViewActionJobMap.clear()
     }
 
     private fun init(service: ITiKaAccessibilityService) {
@@ -40,6 +63,29 @@ abstract class TikaAccessibilitySubProxy : ITiKaAccessibilitySubProxy {
             mProxy = TiKaAccessibilityProxy(service)
         }
         this.mRealService = service.getCurrService()
+    }
+
+    protected fun registerAction(key: String, block: suspend CoroutineScope.() -> Unit) {
+        val oldJob = mViewActionJobMap[key]
+        oldJob?.cancel()
+        mViewActionJobMap[key] = mCoroutineScope.launch {
+            block(this)
+        }
+    }
+
+    protected fun runInViewTarget(
+        event: AccessibilityEvent?,
+        target: String,
+        block: suspend CoroutineScope.() -> Unit
+    ) {
+        if (event?.className == target) {
+            registerAction(target, block)
+        }
+    }
+
+    protected fun unregisterAction(key: String) {
+        mViewActionJobMap[key]?.cancel()
+        mViewActionJobMap.remove(key)
     }
 
     /**
@@ -65,11 +111,19 @@ abstract class TikaAccessibilitySubProxy : ITiKaAccessibilitySubProxy {
         mProxy?.performScrollBackward()
     }
 
+    protected fun performScrollBackward(node: AccessibilityNodeInfo?) {
+        mProxy?.performScrollBackward(node)
+    }
+
     /**
      * 模拟上滑操作
      */
     protected fun performScrollForward() {
         mProxy?.performScrollForward()
+    }
+
+    protected fun performScrollForward(node: AccessibilityNodeInfo?) {
+        mProxy?.performScrollForward(node)
     }
 
     /**

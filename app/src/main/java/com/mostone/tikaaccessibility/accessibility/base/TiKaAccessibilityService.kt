@@ -1,6 +1,8 @@
 package com.mostone.tikaaccessibility.accessibility.base
 
 import android.accessibilityservice.AccessibilityService
+import android.content.Intent
+import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import com.mostone.tikaaccessibility.AccessibilityMode
 import com.mostone.tikaaccessibility.accessibility.base.contact.ITiKaAccessibilityService
@@ -11,6 +13,7 @@ val tkServices = CopyOnWriteArrayList<AccessibilityMode>()
 class TiKaAccessibilityService : AccessibilityService(), ITiKaAccessibilityService {
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
+        Log.d("Accessibility", "${event?.className}")
         tkServices.forEach {
             if (!it.service.idleState()) {
                 it.service.onAccessibilityEvent(event, this)
@@ -26,8 +29,16 @@ class TiKaAccessibilityService : AccessibilityService(), ITiKaAccessibilityServi
         }
     }
 
+
     override fun getCurrService(): AccessibilityService {
         return this
+    }
+
+    override fun onUnbind(intent: Intent?): Boolean {
+        tkServices.forEach {
+            it.service.dispose()
+        }
+        return super.onUnbind(intent)
     }
 
 }

@@ -29,6 +29,30 @@ class TiKaAccessibilityProxy(private val service: ITiKaAccessibilityService) {
         }
     }
 
+    fun performScrollForward(node: AccessibilityNodeInfo?) {
+        var nodeInfo = node
+        if (nodeInfo == null) return
+        while (nodeInfo != null) {
+            if (nodeInfo.isScrollable) {
+                nodeInfo.performAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD)
+                break
+            }
+            nodeInfo = nodeInfo.parent
+        }
+    }
+
+    fun performScrollBackward(node: AccessibilityNodeInfo?) {
+        var nodeInfo = node
+        if (nodeInfo == null) return
+        while (nodeInfo != null) {
+            if (nodeInfo.isScrollable) {
+                nodeInfo.performAction(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD)
+                break
+            }
+            nodeInfo = nodeInfo.parent
+        }
+    }
+
     /**
      * 模拟返回操作
      */

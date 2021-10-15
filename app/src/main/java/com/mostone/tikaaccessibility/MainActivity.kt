@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
+import com.mostone.tikaaccessibility.accessibility.SendGiftService
 import com.mostone.tikaaccessibility.accessibility.SendMsgService
 import com.mostone.tikaaccessibility.accessibility.base.tkServices
 import com.mostone.tikaaccessibility.databinding.ActivityMainBinding
@@ -56,6 +57,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun initList() {
         val mTestMode = AccessibilityMode(SendMsgService(), "自动发消息", "会话页自动发送消息")
+        val mSendGiftMode = AccessibilityMode(SendGiftService(), "送随机礼物", "随机普通礼物")
+        tkServices.add(mSendGiftMode)
         tkServices.add(mTestMode)
     }
 }
