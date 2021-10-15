@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initList() {
         val mTestMode = AccessibilityMode(SendMsgService(), "自动发消息", "会话页自动发送消息")
-        val mSendGiftMode = AccessibilityMode(SendGiftService(), "送随机礼物", "随机普通礼物")
+        val mSendGiftMode = AccessibilityMode(SendGiftService(), "送随机礼物", "赠送礼物列表第一页的随机礼物")
         tkServices.add(mSendGiftMode)
         tkServices.add(mTestMode)
     }
