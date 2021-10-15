@@ -56,8 +56,15 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun initList() {
-        val mTestMode = AccessibilityMode(SendMsgService(), "自动发消息", "会话页自动发送消息")
-        val mSendGiftMode = AccessibilityMode(SendGiftService(), "送随机礼物", "赠送礼物列表第一页的随机礼物")
+        val mTestMode = AccessibilityMode(
+            SendMsgService(), "自动发消息", "会话页自动发送消息：\n" +
+                    " 1.需要提前进入全屏的会话页"
+        )
+        val mSendGiftMode = AccessibilityMode(
+            SendGiftService(), "送随机礼物", "赠送礼物列表第一页的随机礼物:\n" +
+                    " 1.未进入房间时必须要在首页tab下并且确保推荐列表不是空的，会在可见区域下进入任意一个房间。\n" +
+                    " 2.已在房间的情况下别提前打开礼物箱，目前无法识别。"
+        )
         tkServices.add(mSendGiftMode)
         tkServices.add(mTestMode)
     }

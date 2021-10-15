@@ -8,7 +8,7 @@ interface ITiKaAccessibilitySubProxy {
 
     fun onInterrupt(service: ITiKaAccessibilityService)
 
-    fun getExtrasData(): MutableMap<String, Any>
+    fun getExtrasData(): MutableMap<String, Any?>
 
     /**
      * 是否处于空闲状态

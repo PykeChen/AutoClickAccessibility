@@ -15,7 +15,7 @@ abstract class TikaAccessibilitySubProxy : ITiKaAccessibilitySubProxy {
 
     protected var mIdle = true
 
-    protected val mExtrasData = mutableMapOf<String, Any>()
+    protected val mExtrasData = mutableMapOf<String, Any?>()
 
     private var mCoroutineScope = CoroutineScope(Dispatchers.Main)
         get() {
@@ -44,7 +44,7 @@ abstract class TikaAccessibilitySubProxy : ITiKaAccessibilitySubProxy {
         return mIdle
     }
 
-    override fun getExtrasData(): MutableMap<String, Any> = mExtrasData
+    override fun getExtrasData(): MutableMap<String, Any?> = mExtrasData
 
     override fun switchIdleState() {
         mIdle = !mIdle

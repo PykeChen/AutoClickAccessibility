@@ -5,4 +5,5 @@
     <string name="accessibility_go">前往</string>
     <string name="accessibility_open">启动</string>
     <string name="accessibility_close">关闭</string>
+    <string name="dialog_send_gift_room_index">输入位于首页推荐列表的位置</string>
 </resources>

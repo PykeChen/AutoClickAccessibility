@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.mostone.tikaaccessibility.accessibility.SendGiftService
 import com.mostone.tikaaccessibility.databinding.ItemServiceBinding
 import com.mostone.tikaaccessibility.utils.commonDialog
 import com.mostone.tikaaccessibility.utils.debounceClick
+import com.mostone.tikaaccessibility.utils.sendGiftConfigDialog
 
 class AccessibilityAdapter(val context: Context) :
     RecyclerView.Adapter<AccessibilityAdapter.AccessibilityViewHolder>() {
@@ -48,7 +50,10 @@ class AccessibilityAdapter(val context: Context) :
                 null
             )
             root.debounceClick {
-                commonDialog(item, position)
+                when (item.service) {
+                    is SendGiftService -> sendGiftConfigDialog(item, position)
+                    else -> commonDialog(item, position)
+                }
             }
         }
     }

@@ -9,7 +9,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
-import java.util.*
 
 
 class SendGiftService : TikaAccessibilitySubProxy() {
@@ -42,20 +41,34 @@ class SendGiftService : TikaAccessibilitySubProxy() {
         val homeRvNode = findViewByID(HomeTabRv)
         //找出推荐列表的任意一个房间进入
         //如果首页的推荐列表是空的就不用执行了
-        if (homeRvNode?.childCount ?: 0 < 4) {
+
+        if (homeRvNode == null) {
             coroutineScope.cancel()
             return
         }
-        //rand.nextInt((max - min) + 1) + min
-        val topRoomFirst = homeRvNode?.runCatching {
+        val topRoomStart: Int? = homeRvNode.childCount.runCatching {
+            for (i in 0..this) {
+                val childrenChildCount = homeRvNode.getChild(i).childCount
+
+                if (childrenChildCount in 4..7) {
+                    return@runCatching i
+                }
+            }
+            null
+        }.getOrNull()
+        if (topRoomStart == null) {
+            coroutineScope.cancel()
+            return
+        }
+        val topRoom = homeRvNode.runCatching {
             //防止越界
-            getChild(randInt(4, childCount - 1))
+            getChild(randInt(topRoomStart, childCount - 1))
         }
-        if (topRoomFirst?.isFailure == true) {
+        if (topRoom.isFailure) {
             coroutineScope.cancel()
             return
         }
-        performViewClick(topRoomFirst?.getOrNull())
+        performViewClick(topRoom.getOrNull())
         //等待转场动画结束，页面跳转动画为300ms。
         delay(300L)
     }
@@ -116,5 +129,9 @@ class SendGiftService : TikaAccessibilitySubProxy() {
         val senBtn = findViewByID(RoomGiftSendBtn)
         performViewClick(senBtn)
         delay(200L)
+    }
+
+    companion object {
+//        const val TARGET_ROOM_INDEX = "targetRoomIndex"
     }
 }
