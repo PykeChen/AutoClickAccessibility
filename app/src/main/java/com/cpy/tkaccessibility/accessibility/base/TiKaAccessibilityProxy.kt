@@ -10,17 +10,19 @@ class TiKaAccessibilityProxy(private val service: ITiKaAccessibilityService) {
     fun getRootInActiveWindow(): AccessibilityNodeInfo? =
         service.getCurrService()?.rootInActiveWindow
 
+
+    fun getAccessibilityService(): AccessibilityService? {
+        return service.getCurrService()
+    }
+
     /**
      * 模拟点击事件
      *
      * @param node nodeInfo
      */
     fun performViewClick(node: AccessibilityNodeInfo?) {
-        var nodeInfo = node
-        if (nodeInfo == null) {
-            return
-        }
-        while (nodeInfo != null) {
+        var nodeInfo = node ?: return
+        while (true) {
             if (nodeInfo.isClickable) {
                 nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK)
                 break

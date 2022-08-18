@@ -14,14 +14,25 @@ import com.mostone.tikaaccessibility.AccessibilityMode
 import com.mostone.tikaaccessibility.R
 import com.mostone.tikaaccessibility.accessibility.SendGiftService
 import com.mostone.tikaaccessibility.databinding.DialogSendGiftBinding
+import com.mostone.tikaaccessibility.toast
 
 
-fun AccessibilityAdapter.commonDialog(mode: AccessibilityMode, position: Int) {
+fun AccessibilityAdapter.commonDialog(
+    mode: AccessibilityMode,
+    position: Int,
+    obtainExtraData: () -> Pair<Boolean, MutableMap<String, Any>>
+) {
     MaterialDialog(context, BottomSheet(LayoutMode.WRAP_CONTENT)).show {
         title(text = mode.serviceName)
         val btnText =
             getStringKtx(if (mode.service.idleState()) R.string.accessibility_open else R.string.accessibility_close)
         positiveButton(text = btnText) {
+            val data = obtainExtraData.invoke()
+            if (!data.first) {
+                toast("参数错误，请检查参数!")
+                return@positiveButton
+            }
+            mode.service.putExtraData(data.second)
             mode.service.switchIdleState()
             notifyItemChanged(position)
         }

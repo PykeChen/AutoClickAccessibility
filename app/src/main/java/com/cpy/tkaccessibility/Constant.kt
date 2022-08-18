@@ -1,6 +1,11 @@
 package com.mostone.tikaaccessibility
 
+import android.widget.Toast
+import com.mostone.tikaaccessibility.utils.getAppContext
+
 const val TiKaScheme = "com.mowang.tika"
+
+const val PuPuScheme = "com.pupumall.customer"
 
 const val TikaIdRes = "com.mostone.tika:id/"
 
@@ -11,6 +16,16 @@ const val HomeChatPage = "$TiKaScheme.home.presentation.chat.HomeChatActivity"
 const val RoomPage = "$TiKaScheme.live_room.app.presentation.room.RoomActivity"
 
 const val SystemDialogClassName = " android.app.Dialog"
+
+/*******************Key*******************/
+
+const val KEY_CLASS_NAME = "cls-name"
+const val KEY_X_POS = "x-pos"
+const val KEY_Y_POS = "y-pos"
+const val KEY_TAP_DUR = "tap_dur"
+const val KEY_START_DATE = "start_date"
+const val KEY_END_DATE = "end_date"
+
 
 /*******************Home - id*******************/
 
@@ -28,3 +43,7 @@ const val RoomGiftBoxMicUsersRv = "${TikaIdRes}rv_mic_users"
 const val RoomGiftSendBtn = "${TikaIdRes}tv_gift_send"
 const val RoomGiftPanel = "${TikaIdRes}cl_gift_panel"
 const val RoomGiftBanner = "${TikaIdRes}banner_gift"
+
+fun toast(content: String): Unit {
+    Toast.makeText(getAppContext(), content, Toast.LENGTH_SHORT).show()
+}

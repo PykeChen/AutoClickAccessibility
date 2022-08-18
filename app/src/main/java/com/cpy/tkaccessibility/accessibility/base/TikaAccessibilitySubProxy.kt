@@ -1,6 +1,11 @@
 package com.mostone.tikaaccessibility.accessibility.base
 
 import android.accessibilityservice.AccessibilityService
+import android.accessibilityservice.GestureDescription
+import android.annotation.TargetApi
+import android.graphics.Path
+import android.os.Build
+import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import com.mostone.tikaaccessibility.accessibility.base.contact.ITiKaAccessibilityService
@@ -9,15 +14,15 @@ import kotlinx.coroutines.*
 
 abstract class TikaAccessibilitySubProxy : ITiKaAccessibilitySubProxy {
 
-    private var mProxy: TiKaAccessibilityProxy? = null
+    protected var mProxy: TiKaAccessibilityProxy? = null
 
     protected var mRealService: AccessibilityService? = null
 
     protected var mIdle = true
 
-    protected val mExtrasData = mutableMapOf<String, Any?>()
+    protected val mExtrasData = mutableMapOf<String, Any>()
 
-    private var mCoroutineScope = CoroutineScope(Dispatchers.Main)
+    protected var mCoroutineScope = CoroutineScope(Dispatchers.Main)
         get() {
             if (!field.isActive) {
                 field = CoroutineScope(Dispatchers.Main)
@@ -44,7 +49,12 @@ abstract class TikaAccessibilitySubProxy : ITiKaAccessibilitySubProxy {
         return mIdle
     }
 
-    override fun getExtrasData(): MutableMap<String, Any?> = mExtrasData
+    override fun getExtrasData(): MutableMap<String, Any> = mExtrasData
+
+    override fun putExtraData(extraData: MutableMap<String, Any>) {
+        mExtrasData.clear()
+        mExtrasData.putAll(extraData)
+    }
 
     override fun switchIdleState() {
         mIdle = !mIdle
@@ -149,6 +159,63 @@ abstract class TikaAccessibilitySubProxy : ITiKaAccessibilitySubProxy {
     protected fun clickTextViewByText(text: String) = mProxy?.clickTextViewByText(text)
 
     protected fun clickTextViewByID(id: String) = mProxy?.clickTextViewByID(id)
+
+
+    //输入x, y坐标模拟点击事件
+    @TargetApi(Build.VERSION_CODES.N)
+    fun performXYClick(x: Float, y: Float) {
+        mProxy?.getAccessibilityService()?.apply {
+            val path = Path()
+            path.moveTo(x, y)
+            val builder = GestureDescription.Builder()
+            builder.addStroke(GestureDescription.StrokeDescription(path, 0, 5L))
+            val gestureDescription = builder.build()
+            dispatchGesture(
+                gestureDescription,
+                object : AccessibilityService.GestureResultCallback() {
+                    override fun onCompleted(gestureDescription: GestureDescription) {
+                        super.onCompleted(gestureDescription)
+                        Log.d("Accessibility", "Gesture onCompleted: ")
+                    }
+
+                    override fun onCancelled(gestureDescription: GestureDescription) {
+                        super.onCancelled(gestureDescription)
+                        Log.d("Accessibility", "Gesture onCancelled: ")
+                    }
+                },
+                null
+            )
+        }
+
+    }
+
+    //模拟滑动事件
+    @TargetApi(Build.VERSION_CODES.N)
+    fun swipe(x1: Float, y1: Float, x2: Float, y2: Float): Unit {
+        mProxy?.getAccessibilityService()?.apply {
+            val path = Path()
+            path.moveTo(x1, y1)
+            path.lineTo(x2, y2)
+            val builder = GestureDescription.Builder()
+            builder.addStroke(GestureDescription.StrokeDescription(path, 0, 500L))
+            val gestureDescription = builder.build()
+            dispatchGesture(
+                gestureDescription,
+                object : AccessibilityService.GestureResultCallback() {
+                    override fun onCompleted(gestureDescription: GestureDescription) {
+                        super.onCompleted(gestureDescription)
+                        Log.d("Accessibility", "Gesture onCompleted: ")
+                    }
+
+                    override fun onCancelled(gestureDescription: GestureDescription) {
+                        super.onCancelled(gestureDescription)
+                        Log.d("Accessibility", "Gesture onCancelled: ")
+                    }
+                },
+                null
+            )
+        }
+    }
 
     /**
      * 模拟输入

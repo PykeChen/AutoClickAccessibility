@@ -6,14 +6,19 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.mostone.tikaaccessibility.accessibility.DiscountFetchService
 import com.mostone.tikaaccessibility.accessibility.SendGiftService
 import com.mostone.tikaaccessibility.databinding.ItemServiceBinding
 import com.mostone.tikaaccessibility.utils.commonDialog
 import com.mostone.tikaaccessibility.utils.debounceClick
 import com.mostone.tikaaccessibility.utils.sendGiftConfigDialog
 
-class AccessibilityAdapter(val context: Context) :
-    RecyclerView.Adapter<AccessibilityAdapter.AccessibilityViewHolder>() {
+class AccessibilityAdapter(
+    val context: Context,
+    private val obtainExtraData: () -> Pair<Boolean, MutableMap<String, Any>>
+) :
+    RecyclerView.Adapter<AccessibilityAdapter.AccessibilityViewHolder>(),
+    DiscountFetchService.IServiceChange {
 
     private val mServices = mutableListOf<AccessibilityMode>()
 
@@ -52,7 +57,7 @@ class AccessibilityAdapter(val context: Context) :
             root.debounceClick {
                 when (item.service) {
                     is SendGiftService -> sendGiftConfigDialog(item, position)
-                    else -> commonDialog(item, position)
+                    else -> commonDialog(item, position, obtainExtraData)
                 }
             }
         }
@@ -69,5 +74,9 @@ class AccessibilityAdapter(val context: Context) :
 
     inner class AccessibilityViewHolder(val binding: ItemServiceBinding) :
         RecyclerView.ViewHolder(binding.root)
+
+    override fun idleChange(idle: Boolean, position: Int) {
+        notifyItemChanged(position)
+    }
 
 }
