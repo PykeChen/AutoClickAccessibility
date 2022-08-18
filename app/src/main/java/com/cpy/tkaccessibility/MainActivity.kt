@@ -1,18 +1,28 @@
 package com.cpy.tkaccessibility
 
+import Utils.REQUEST_FLOAT_CODE
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.view.View
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.cpy.tkaccessibility.accessibility.DiscountFetchService
 import com.cpy.tkaccessibility.accessibility.base.tkServices
 import com.cpy.tkaccessibility.databinding.ActivityMainBinding
+import com.cpy.tkaccessibility.float.SuspendWindowService
 import com.cpy.tkaccessibility.utils.*
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
+
+
     private val mAdapter by lazy(LazyThreadSafetyMode.NONE) {
         AccessibilityAdapter(this) {
             obtainExtraData()
@@ -30,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         initImmersionBar(mBinding.accessibilityTitle)
         initList()
         initView()
-
+        startService(Intent(this, SuspendWindowService::class.java))
     }
 
     override fun onResume() {
@@ -38,9 +48,20 @@ class MainActivity : AppCompatActivity() {
         checkAccessibilityState()
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_FLOAT_CODE) {
+            if (Settings.canDrawOverlays(this)) {
+                Toast.makeText(this, "悬浮窗权限已经打开", Toast.LENGTH_SHORT).show()
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
     override fun onStart() {
         super.onStart()
-        if (!isAccessibilitySettingsOn()) {
+        if (mBinding.switchCheck.isChecked && !isAccessibilitySettingsOn()) {
             if (mDialog == null) {
                 mDialog = MaterialDialog(this).cancelable(true)
                     .title(R.string.confirm_title)
@@ -66,7 +87,9 @@ class MainActivity : AppCompatActivity() {
             goAccess()
         }
         mBinding.let {
-            it.etClassName.setText(SPUtils.getInstance().getString(KEY_CLASS_NAME, "BannerWebViewActivity"))
+            it.etClassName.setText(
+                SPUtils.getInstance().getString(KEY_CLASS_NAME, "BannerWebViewActivity")
+            )
             it.etClickPosX.setText(SPUtils.getInstance().getString(KEY_X_POS, "600"))
             it.etClickPosY.setText(SPUtils.getInstance().getString(KEY_Y_POS, "1200"))
 
@@ -89,8 +112,18 @@ class MainActivity : AppCompatActivity() {
             adapter = mAdapter
             mAdapter.submitList(tkServices)
         }
-    }
 
+        mBinding.switchCheck.isChecked = SPUtils.getInstance().getBoolean(KEY_SWITCH_ONE, true)
+        mBinding.switchCheck.setOnCheckedChangeListener { _, isChecked ->
+            SPUtils.getInstance().put(KEY_SWITCH_ONE, isChecked)
+        }
+
+        mBinding.btnOpenFloat.setOnClickListener {
+            Utils.checkSuspendedWindowPermission(this) {
+                ViewModelMain.isShowSuspendWindow.postValue(true)
+            }
+        }
+    }
 
 
     private fun initList() {

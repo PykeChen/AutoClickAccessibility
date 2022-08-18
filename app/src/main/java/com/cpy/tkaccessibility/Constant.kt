@@ -27,6 +27,7 @@ const val KEY_Y_POS = "y-pos"
 const val KEY_TAP_DUR = "tap_dur"
 const val KEY_START_DATE = "start_date"
 const val KEY_END_DATE = "end_date"
+const val KEY_SWITCH_ONE = "check-on"
 
 
 /*******************Home - id*******************/
