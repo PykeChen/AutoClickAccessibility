@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TiKaAccessibility</string>
+    <string name="app_name">圣手辅助</string>
     <string name="accessibility_tip">未开启无障碍服务</string>
     <string name="accessibility_tip_open">点击开启无障碍服务</string>
     <string name="confirm_title">提示</string>

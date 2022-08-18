@@ -17,4 +17,7 @@ object ViewModelMain : ViewModel() {
     //悬浮窗口显示 隐藏
     var isVisible = MutableLiveData<Boolean>()
 
+    //倒计时时间ms数
+    var timeMs = MutableLiveData<Long>()
+
 }

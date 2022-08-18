@@ -1,16 +1,20 @@
 package com.cpy.tkaccessibility.float
 
 import ItemViewTouchListener
+import Utils
+import ViewModelMain
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Build
 import android.util.DisplayMetrics
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.view.WindowManager
+import android.widget.TextView
 import androidx.lifecycle.LifecycleService
 import com.cpy.tkaccessibility.R
-import com.cpy.tkaccessibility.utils.WakeHelper
 
 /**
  * @功能:应用外打开Service 有局限性 特殊界面无法显示
@@ -21,18 +25,13 @@ import com.cpy.tkaccessibility.utils.WakeHelper
 class SuspendWindowService : LifecycleService() {
     private lateinit var windowManager: WindowManager
     private var floatRootView: View? = null//悬浮窗View
+    private var tvTime: TextView? = null//倒计时View
 
 
     override fun onCreate() {
         super.onCreate()
         initObserve()
     }
-
-
-    override fun onStart(intent: Intent?, startId: Int) {
-        super.onStart(intent, startId)
-    }
-
 
     private fun initObserve() {
         ViewModelMain.apply {
@@ -46,10 +45,20 @@ class SuspendWindowService : LifecycleService() {
                     if (!Utils.isNull(floatRootView)) {
                         if (!Utils.isNull(floatRootView?.windowToken)) {
                             if (!Utils.isNull(windowManager)) {
-                                windowManager?.removeView(floatRootView)
+                                windowManager.removeView(floatRootView)
+                                floatRootView = null
                             }
                         }
                     }
+                }
+            }
+            val m2ms = 60 * 1000
+            timeMs.observe(this@SuspendWindowService) {
+                tvTime?.let { tv ->
+                    val mVal = it / m2ms
+                    val sVal = (it % m2ms) / 1000
+                    val ms = (it % 1000)
+                    tv.text = String.format("%02d:%02d\n%03d", mVal, sVal, ms)
                 }
             }
         }
@@ -80,8 +89,10 @@ class SuspendWindowService : LifecycleService() {
         // 新建悬浮窗控件
         floatRootView = LayoutInflater.from(this).inflate(R.layout.activity_float_item, null)
         floatRootView?.setOnTouchListener(ItemViewTouchListener(layoutParam, windowManager))
+        tvTime = floatRootView?.findViewById(R.id.tv_time_ms)
         // 将悬浮窗控件添加到WindowManager
         windowManager.addView(floatRootView, layoutParam)
+
     }
 }
 

@@ -107,6 +107,10 @@ class DiscountFetchService(private val itemPos: Int, private val mListener: ISer
         stopAutoClickTask()
     }
 
+    fun obtainStartDate(): Date? {
+        return mStartDate
+    }
+
     companion object {
         const val WebViewActivity = "com.pupumall.webview.page.BannerWebViewActivity"
         const val TAG_NAME = "DiscountFetchService"

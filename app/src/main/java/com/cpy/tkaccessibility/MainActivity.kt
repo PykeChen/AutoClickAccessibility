@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -119,9 +120,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         mBinding.btnOpenFloat.setOnClickListener {
-            Utils.checkSuspendedWindowPermission(this) {
-                ViewModelMain.isShowSuspendWindow.postValue(true)
+            if (ViewModelMain.isShowSuspendWindow.value == true) {
+                (it as Button).text = "开启悬浮窗"
+                ViewModelMain.isShowSuspendWindow.postValue(false)
+            } else {
+                Utils.checkSuspendedWindowPermission(this) {
+                    ViewModelMain.isShowSuspendWindow.postValue(true)
+                    (it as Button).text = "关闭悬浮窗"
+                }
             }
+
         }
     }
 

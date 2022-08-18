@@ -3,6 +3,7 @@ package com.cpy.tkaccessibility
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -27,6 +28,8 @@ class AccessibilityAdapter(
     private val mIdleText = "空闲中"
 
     private val mRunningText = "已启用"
+
+    private var countDownTm: CountDownTimer? = null
 
     private val mIdleRes by lazy(LazyThreadSafetyMode.NONE) {
         ContextCompat.getDrawable(context, R.drawable.bg_idle)
@@ -79,7 +82,31 @@ class AccessibilityAdapter(
 
     override fun idleChange(idle: Boolean, position: Int) {
         notifyItemChanged(position)
-        WakeHelper.keepScreenState(!idle, activity = context as Activity)
+        if (!idle) {
+            (mServices[position].service as DiscountFetchService?)?.obtainStartDate()?.let {
+                startCountDownTimer(it.time - System.currentTimeMillis())
+            }
+        } else {
+            countDownTm?.cancel()
+            countDownTm = null
+        }
+
     }
 
+
+    private fun startCountDownTimer(millsInFuture: Long) {
+        countDownTm?.cancel()
+        countDownTm =  object : CountDownTimer(millsInFuture, 100L) {
+            override fun onTick(millisUntilFinished: Long) {
+                ViewModelMain.timeMs.postValue(millisUntilFinished)
+            }
+
+            override fun onFinish() {
+                ViewModelMain.timeMs.postValue(0)
+            }
+        }.also {
+            it.start()
+        }
+
+    }
 }

@@ -2,9 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:keepScreenOn="true">
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/log_one" />
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/logo_one" />
+
+    <TextView
+        android:id="@+id/tv_time_ms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="20:10\n200"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/holo_red_dark"
+        android:layout_centerInParent="true"
+        />
 </RelativeLayout>
