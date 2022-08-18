@@ -1,6 +1,7 @@
 package com.cpy.tkaccessibility
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cpy.tkaccessibility.accessibility.DiscountFetchService
 import com.cpy.tkaccessibility.accessibility.SendGiftService
 import com.cpy.tkaccessibility.databinding.ItemServiceBinding
+import com.cpy.tkaccessibility.utils.WakeHelper
 import com.cpy.tkaccessibility.utils.commonDialog
 import com.cpy.tkaccessibility.utils.debounceClick
 import com.cpy.tkaccessibility.utils.sendGiftConfigDialog
@@ -77,6 +79,7 @@ class AccessibilityAdapter(
 
     override fun idleChange(idle: Boolean, position: Int) {
         notifyItemChanged(position)
+        WakeHelper.keepScreenState(!idle, activity = context as Activity)
     }
 
 }

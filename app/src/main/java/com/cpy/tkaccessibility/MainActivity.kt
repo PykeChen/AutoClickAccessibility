@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private lateinit var mBinding: ActivityMainBinding
 
     private var mDialog: MaterialDialog? = null
@@ -66,6 +65,15 @@ class MainActivity : AppCompatActivity() {
         mBinding.layoutServiceOpen.setOnClickListener {
             goAccess()
         }
+        mBinding.let {
+            it.etClassName.setText(SPUtils.getInstance().getString(KEY_CLASS_NAME, "BannerWebViewActivity"))
+            it.etClickPosX.setText(SPUtils.getInstance().getString(KEY_X_POS, "600"))
+            it.etClickPosY.setText(SPUtils.getInstance().getString(KEY_Y_POS, "1200"))
+
+            it.etClassName.saveTxt2Sp(KEY_CLASS_NAME)
+            it.etClickPosX.saveTxt2Sp(KEY_X_POS)
+            it.etClickPosY.saveTxt2Sp(KEY_Y_POS)
+        }
         with(mBinding.etStartTime) {
             val timeStamp = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2)
             val timeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
@@ -82,6 +90,7 @@ class MainActivity : AppCompatActivity() {
             mAdapter.submitList(tkServices)
         }
     }
+
 
 
     private fun initList() {
@@ -133,7 +142,7 @@ class MainActivity : AppCompatActivity() {
                 toast("间隔时间必须>0")
                 return error
             }
-            val lastStartTime = Date(startTime.time - increaseMs)
+            val lastStartTime = Date(startTime.time + increaseMs)
             resultMap[KEY_CLASS_NAME] = className
             resultMap[KEY_START_DATE] = lastStartTime
             resultMap[KEY_END_DATE] = endTime

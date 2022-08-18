@@ -7,6 +7,8 @@ const val TiKaScheme = "com.momo.tika"
 
 const val PuPuScheme = "com.pupumall.customer"
 
+const val SPNAME = "ACAccessibility"
+
 const val TikaIdRes = "com.momo.tika:id/"
 
 const val HomePage = "$TiKaScheme.home.presentation.home.HomeActivity"

@@ -17,8 +17,9 @@ fun AccessibilityAdapter.commonDialog(
 ) {
     MaterialDialog(context, BottomSheet(LayoutMode.WRAP_CONTENT)).show {
         title(text = mode.serviceName)
+        val idleState = mode.service.idleState()
         val btnText =
-            getStringKtx(if (mode.service.idleState()) R.string.accessibility_open else R.string.accessibility_close)
+            getStringKtx(if (idleState) R.string.accessibility_open else R.string.accessibility_close)
         positiveButton(text = btnText) {
             val data = obtainExtraData.invoke()
             if (!data.first) {
@@ -27,7 +28,7 @@ fun AccessibilityAdapter.commonDialog(
             }
             mode.service.putExtraData(data.second)
             mode.service.switchIdleState()
-            notifyItemChanged(position)
+            idleChange(!idleState, position = position)
         }
     }
 }
