@@ -1,14 +1,13 @@
-package com.mostone.tikaaccessibility
+package com.cpy.tkaccessibility
 
 import android.os.Bundle
-import android.provider.SyncStateContract
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
-import com.mostone.tikaaccessibility.accessibility.DiscountFetchService
-import com.mostone.tikaaccessibility.accessibility.base.tkServices
-import com.mostone.tikaaccessibility.databinding.ActivityMainBinding
-import com.mostone.tikaaccessibility.utils.*
+import com.cpy.tkaccessibility.accessibility.DiscountFetchService
+import com.cpy.tkaccessibility.accessibility.base.tkServices
+import com.cpy.tkaccessibility.databinding.ActivityMainBinding
+import com.cpy.tkaccessibility.utils.*
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit

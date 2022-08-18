@@ -1,13 +1,13 @@
-package com.mostone.tikaaccessibility.accessibility
+package com.cpy.tkaccessibility.accessibility
 
 import android.view.accessibility.AccessibilityEvent
-import com.mostone.tikaaccessibility.HomeChatPage
-import com.mostone.tikaaccessibility.accessibility.base.TikaAccessibilitySubProxy
+import com.cpy.tkaccessibility.HomeChatPage
+import com.cpy.tkaccessibility.accessibility.base.TikaAccessibilitySubProxy
 import kotlinx.coroutines.*
 
 class SendMsgService : TikaAccessibilitySubProxy() {
-    private val mInputId = "com.mostone.tika:id/et_input"
-    private val mSendId = "com.mostone.tika:id/btn_send"
+    private val mInputId = "com.momo.tika:id/et_input"
+    private val mSendId = "com.momo.tika:id/btn_send"
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         runInViewTarget(event, HomeChatPage) {

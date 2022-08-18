@@ -1,14 +1,13 @@
-package com.mostone.tikaaccessibility.accessibility.base
+package com.cpy.tkaccessibility.accessibility.base
 
 import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.AccessibilityServiceInfo
 import android.content.Intent
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
-import android.widget.Switch
-import com.mostone.tikaaccessibility.AccessibilityMode
-import com.mostone.tikaaccessibility.accessibility.base.contact.ITiKaAccessibilityService
-import com.mostone.tikaaccessibility.toast
+import com.cpy.tkaccessibility.AccessibilityMode
+import com.cpy.tkaccessibility.accessibility.base.contact.ITiKaAccessibilityService
+import com.cpy.tkaccessibility.toast
 import java.util.concurrent.CopyOnWriteArrayList
 
 val tkServices = CopyOnWriteArrayList<AccessibilityMode>()

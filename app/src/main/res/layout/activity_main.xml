@@ -15,25 +15,286 @@
         app:title="服务列表"
         app:titleTextAppearance="@style/NavTitle" />
 
-<!--    <androidx.appcompat.widget.AppCompatTextView-->
-<!--        android:id="@+id/accessibilityOpenEntrance"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="45dp"-->
-<!--        android:background="@android:color/holo_red_light"-->
-<!--        android:gravity="center_vertical"-->
-<!--        android:paddingHorizontal="16dp"-->
-<!--        android:text="@string/accessibility_tip"-->
-<!--        android:textColor="@color/white"-->
-<!--        app:drawableEndCompat="@drawable/ic_arrow_right"-->
-<!--        app:drawableTint="@color/white"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/accessibilityTitle" />-->
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_service_open"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@android:color/holo_red_light"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/accessibilityTitle">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/service_open"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16sp"
+            android:text="@string/accessibility_tip_open"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:drawableTint="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/accessibilityTitle" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/service_title"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:layout_gravity="end"
+            android:gravity="end|center_vertical"
+            android:text="状态："
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            app:drawableTint="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/accessibilityTitle" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/service_state"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="end"
+            android:gravity="end|center_vertical"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:drawablePadding="10dp"
+            android:paddingRight="20dp"
+            android:text="开启"
+            android:textColor="@color/white"
+            app:drawableEndCompat="@drawable/ic_arrow_right"
+            app:drawableTint="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/accessibilityTitle" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_class_name"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginVertical="10dp"
+        android:paddingStart="18dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_service_open">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="拦截的className:"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:textSize="@dimen/et_text_size"
+            android:id="@+id/et_class_name"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/alpha_blue_bright"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:text="BannerWebViewActivity"
+            android:textColor="@color/white"
+            app:drawableTint="@color/white"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_start_time"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginVertical="10dp"
+        android:paddingStart="18dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_class_name">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="启动时间:"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:textSize="@dimen/et_text_size"
+            android:id="@+id/et_start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:background="@color/alpha_blue_bright"
+            android:gravity="center_vertical"
+            android:hint="2022-08-16 13:00:00"
+            android:paddingHorizontal="16dp"
+            android:textColor="@color/white"
+            app:drawableTint="@color/white"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+-时间(ms):"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginStart="5dp"/>
+
+        <EditText
+            android:textSize="@dimen/et_text_size"
+            android:id="@+id/et_increase_ms"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:background="@color/alpha_blue_bright"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:textColor="@color/white"
+            android:text="-10"
+            app:drawableTint="@color/white"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_end_time"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginVertical="10dp"
+        android:paddingStart="18dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_start_time">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="结束时间(默认3分钟后):"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:textSize="@dimen/et_text_size"
+            android:id="@+id/et_end_time"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/alpha_blue_bright"
+            android:gravity="center_vertical"
+            android:hint="2022-08-16 13:00:00"
+            android:paddingHorizontal="16dp"
+            android:textColor="@color/white"
+            app:drawableTint="@color/white"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_click_pox_xy"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center"
+        android:paddingStart="18dp"
+        android:layout_marginVertical="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_end_time">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击 坐标X:"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:textSize="@dimen/et_text_size"
+            android:id="@+id/et_click_pos_x"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/alpha_blue_bright"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:layout_weight="1"
+            android:text="939"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/et_start_time" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="坐标 Y:"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:textSize="@dimen/et_text_size"
+            android:id="@+id/et_click_pos_y"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:background="@color/alpha_blue_bright"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:textColor="@color/white"
+            android:text="1163"
+            app:drawableTint="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/et_start_time" />
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_click_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:gravity="center"
+        android:paddingStart="18dp"
+        android:layout_marginVertical="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_click_pox_xy">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击间隔(ms):"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+
+        <EditText
+            android:textSize="@dimen/et_text_size"
+            android:id="@+id/et_click_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/alpha_blue_bright"
+            android:gravity="center_vertical"
+            android:hint="默认10ms"
+            android:paddingHorizontal="16dp"
+            android:text="20"
+            android:textColor="@color/white"
+            app:drawableTint="@color/white" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/accessibilityList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/accessibilityTitle"
+        app:layout_constraintTop_toBottomOf="@id/layout_click_duration"
         tools:listitem="@layout/item_service" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

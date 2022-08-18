@@ -1,11 +1,9 @@
-package com.mostone.tikaaccessibility.accessibility
+package com.cpy.tkaccessibility.accessibility
 
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
-import com.mostone.tikaaccessibility.*
-import com.mostone.tikaaccessibility.accessibility.base.TikaAccessibilitySubProxy
-import com.mostone.tikaaccessibility.utils.TimeUtils
-import com.mostone.tikaaccessibility.utils.afterNow1m
+import com.cpy.tkaccessibility.*
+import com.cpy.tkaccessibility.accessibility.base.TikaAccessibilitySubProxy
 import kotlinx.coroutines.*
 import java.util.*
 

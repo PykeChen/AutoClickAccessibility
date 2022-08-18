@@ -1,4 +1,4 @@
-package com.mostone.tikaaccessibility
+package com.cpy.tkaccessibility
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -6,12 +6,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.mostone.tikaaccessibility.accessibility.DiscountFetchService
-import com.mostone.tikaaccessibility.accessibility.SendGiftService
-import com.mostone.tikaaccessibility.databinding.ItemServiceBinding
-import com.mostone.tikaaccessibility.utils.commonDialog
-import com.mostone.tikaaccessibility.utils.debounceClick
-import com.mostone.tikaaccessibility.utils.sendGiftConfigDialog
+import com.cpy.tkaccessibility.accessibility.DiscountFetchService
+import com.cpy.tkaccessibility.accessibility.SendGiftService
+import com.cpy.tkaccessibility.databinding.ItemServiceBinding
+import com.cpy.tkaccessibility.utils.commonDialog
+import com.cpy.tkaccessibility.utils.debounceClick
+import com.cpy.tkaccessibility.utils.sendGiftConfigDialog
 
 class AccessibilityAdapter(
     val context: Context,

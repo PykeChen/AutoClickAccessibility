@@ -1,4 +1,4 @@
-package com.mostone.tikaaccessibility.utils
+package com.cpy.tkaccessibility.utils
 
 import java.util.*
 

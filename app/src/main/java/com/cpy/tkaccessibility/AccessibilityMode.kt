@@ -1,6 +1,6 @@
-package com.mostone.tikaaccessibility
+package com.cpy.tkaccessibility
 
-import com.mostone.tikaaccessibility.accessibility.base.contact.ITiKaAccessibilitySubProxy
+import com.cpy.tkaccessibility.accessibility.base.contact.ITiKaAccessibilitySubProxy
 
 data class AccessibilityMode(
     val service: ITiKaAccessibilitySubProxy,

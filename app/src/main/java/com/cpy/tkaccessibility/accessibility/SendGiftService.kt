@@ -1,10 +1,10 @@
-package com.mostone.tikaaccessibility.accessibility
+package com.cpy.tkaccessibility.accessibility
 
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
-import com.mostone.tikaaccessibility.*
-import com.mostone.tikaaccessibility.accessibility.base.TikaAccessibilitySubProxy
-import com.mostone.tikaaccessibility.utils.randInt
+import com.cpy.tkaccessibility.*
+import com.cpy.tkaccessibility.accessibility.base.TikaAccessibilitySubProxy
+import com.cpy.tkaccessibility.utils.randInt
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay

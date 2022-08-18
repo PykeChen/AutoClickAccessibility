@@ -1,4 +1,4 @@
-package com.mostone.tikaaccessibility.accessibility.base
+package com.cpy.tkaccessibility.accessibility.base
 
 import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.GestureDescription
@@ -8,8 +8,8 @@ import android.os.Build
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
-import com.mostone.tikaaccessibility.accessibility.base.contact.ITiKaAccessibilityService
-import com.mostone.tikaaccessibility.accessibility.base.contact.ITiKaAccessibilitySubProxy
+import com.cpy.tkaccessibility.accessibility.base.contact.ITiKaAccessibilityService
+import com.cpy.tkaccessibility.accessibility.base.contact.ITiKaAccessibilitySubProxy
 import kotlinx.coroutines.*
 
 abstract class TikaAccessibilitySubProxy : ITiKaAccessibilitySubProxy {

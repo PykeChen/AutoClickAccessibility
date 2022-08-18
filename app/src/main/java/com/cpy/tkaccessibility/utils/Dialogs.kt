@@ -1,20 +1,13 @@
-package com.mostone.tikaaccessibility.utils
+package com.cpy.tkaccessibility.utils
 
 import android.annotation.SuppressLint
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import com.afollestad.materialdialogs.LayoutMode
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet
-import com.afollestad.materialdialogs.customview.customView
-import com.mostone.tikaaccessibility.AccessibilityAdapter
-import com.mostone.tikaaccessibility.AccessibilityMode
-import com.mostone.tikaaccessibility.R
-import com.mostone.tikaaccessibility.accessibility.SendGiftService
-import com.mostone.tikaaccessibility.databinding.DialogSendGiftBinding
-import com.mostone.tikaaccessibility.toast
+import com.cpy.tkaccessibility.AccessibilityAdapter
+import com.cpy.tkaccessibility.AccessibilityMode
+import com.cpy.tkaccessibility.R
+import com.cpy.tkaccessibility.toast
 
 
 fun AccessibilityAdapter.commonDialog(

@@ -3,8 +3,9 @@
     android:accessibilityEventTypes="typeWindowStateChanged|typeWindowContentChanged"
     android:description="@string/app_name"
     android:accessibilityFeedbackType="feedbackGeneric"
-    android:accessibilityFlags="flagDefault"
+    android:accessibilityFlags="flagIncludeNotImportantViews|flagDefault|flagRetrieveInteractiveWindows|flagIncludeNotImportantViews|flagReportViewIds|flagRequestEnhancedWebAccessibility"
     android:canRetrieveWindowContent="true"
+    android:canPerformGestures="true"
     android:notificationTimeout="1000"
-    android:packageNames ="com.mostone.tika"
+    android:packageNames ="com.pupumall.customer"
     />

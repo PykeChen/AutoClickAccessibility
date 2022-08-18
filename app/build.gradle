@@ -7,7 +7,7 @@ android {
     compileSdk 30
 
     defaultConfig {
-        applicationId "com.mostone.tikaaccessibility"
+        applicationId "com.cpy.tkaccessibility"
         minSdk 21
         targetSdk 30
         versionCode 1

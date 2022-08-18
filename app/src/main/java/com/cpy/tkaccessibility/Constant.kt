@@ -1,13 +1,13 @@
-package com.mostone.tikaaccessibility
+package com.cpy.tkaccessibility
 
 import android.widget.Toast
-import com.mostone.tikaaccessibility.utils.getAppContext
+import com.cpy.tkaccessibility.utils.getAppContext
 
-const val TiKaScheme = "com.mowang.tika"
+const val TiKaScheme = "com.momo.tika"
 
 const val PuPuScheme = "com.pupumall.customer"
 
-const val TikaIdRes = "com.mostone.tika:id/"
+const val TikaIdRes = "com.momo.tika:id/"
 
 const val HomePage = "$TiKaScheme.home.presentation.home.HomeActivity"
 

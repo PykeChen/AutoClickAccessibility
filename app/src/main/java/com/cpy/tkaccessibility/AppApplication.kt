@@ -1,10 +1,8 @@
-package com.mostone.tikaaccessibility
+package com.cpy.tkaccessibility
 
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
-import android.content.Intent
-import android.provider.Settings
 
 class AppApplication : Application() {
     companion object {

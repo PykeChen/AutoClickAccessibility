@@ -1,9 +1,9 @@
-package com.mostone.tikaaccessibility.accessibility.base
+package com.cpy.tkaccessibility.accessibility.base
 
 import android.accessibilityservice.AccessibilityService
 import android.os.Bundle
 import android.view.accessibility.AccessibilityNodeInfo
-import com.mostone.tikaaccessibility.accessibility.base.contact.ITiKaAccessibilityService
+import com.cpy.tkaccessibility.accessibility.base.contact.ITiKaAccessibilityService
 
 class TiKaAccessibilityProxy(private val service: ITiKaAccessibilityService) {
 

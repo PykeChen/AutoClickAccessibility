@@ -1,4 +1,4 @@
-package com.mostone.tikaaccessibility.accessibility.base.contact
+package com.cpy.tkaccessibility.accessibility.base.contact
 
 import android.accessibilityservice.AccessibilityService
 

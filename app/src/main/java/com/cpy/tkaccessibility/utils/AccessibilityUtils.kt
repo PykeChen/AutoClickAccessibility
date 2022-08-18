@@ -1,4 +1,4 @@
-package com.mostone.tikaaccessibility.utils
+package com.cpy.tkaccessibility.utils
 
 import android.app.ActivityManager
 import android.content.Context
@@ -8,8 +8,8 @@ import android.provider.Settings.SettingNotFoundException
 import android.text.TextUtils.SimpleStringSplitter
 import android.util.Log
 import android.view.accessibility.AccessibilityManager
-import com.mostone.tikaaccessibility.AppApplication
-import com.mostone.tikaaccessibility.accessibility.base.TiKaAccessibilityService
+import com.cpy.tkaccessibility.AppApplication
+import com.cpy.tkaccessibility.accessibility.base.TiKaAccessibilityService
 
 
 fun getAppContext(): Context = AppApplication.context

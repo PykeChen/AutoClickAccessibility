@@ -1,9 +1,7 @@
-package com.mostone.tikaaccessibility
+package com.cpy.tkaccessibility
 
-import com.mostone.tikaaccessibility.utils.randInt
+import com.cpy.tkaccessibility.utils.randInt
 import org.junit.Test
-
-import org.junit.Assert.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
