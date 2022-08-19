@@ -9,8 +9,9 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.Toast
+import com.cpy.tkaccessibility.PuPuScheme
 import com.cpy.tkaccessibility.float.WorkAccessibilityService
-import java.util.*
+import com.cpy.tkaccessibility.utils.getAppContext
 
 
 /**
@@ -19,7 +20,8 @@ import java.util.*
  * Created on 2022-08-18 15:31
  */
 object Utils {
-    const val REQUEST_FLOAT_CODE=1001
+    const val REQUEST_FLOAT_CODE = 1001
+
     /**
      * 跳转到设置页面申请打开无障碍辅助功能
      */
@@ -125,6 +127,15 @@ object Utils {
         for (i in 0 until count) {
             val child = webViewNode.getChild(i)
             child.contentDescription.toString()
+        }
+    }
+
+    fun startPupuMallActivity() {
+        try {
+            val intent = getAppContext().packageManager.getLaunchIntentForPackage(PuPuScheme)
+            getAppContext().startActivity(intent)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

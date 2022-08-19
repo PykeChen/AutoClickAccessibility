@@ -9,13 +9,13 @@ import androidx.lifecycle.ViewModel
 object ViewModelMain : ViewModel() {
 
     //悬浮窗口创建 移除  基于无障碍服务
-    var isShowWindow = MutableLiveData<Boolean>()
+    var isShowWindow = MutableLiveData<Boolean>(false)
     //悬浮窗口创建 移除
 
-    var isShowSuspendWindow = MutableLiveData<Boolean>()
+    var isShowSuspendWindow = MutableLiveData<Boolean>(false)
 
     //悬浮窗口显示 隐藏
-    var isVisible = MutableLiveData<Boolean>()
+    var isVisible = MutableLiveData<Boolean>(false)
 
     //倒计时时间ms数
     var timeMs = MutableLiveData<Long>()

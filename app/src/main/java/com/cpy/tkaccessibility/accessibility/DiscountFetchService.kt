@@ -47,7 +47,6 @@ class DiscountFetchService(private val itemPos: Int, private val mListener: ISer
     }
 
     private fun stopAutoClickTask() {
-        mListener.idleChange(true, itemPos)
         mTimerTask?.cancel()
         mTimerTask = null
     }
@@ -57,7 +56,7 @@ class DiscountFetchService(private val itemPos: Int, private val mListener: ISer
             mCoroutineScope.launch {
 //                val viewF = findViewByText("领取", clickable = true)
                 if (System.currentTimeMillis() > mEndDate!!.time) {
-                    mTimerTask?.cancel()
+                    stopAutoClickTask()
                     return@launch
                 }
                 Log.d("Accessibility", "startAutoClickTask: count($mToastCount)")
@@ -105,6 +104,9 @@ class DiscountFetchService(private val itemPos: Int, private val mListener: ISer
     override fun switchIdleState() {
         super.switchIdleState()
         stopAutoClickTask()
+        mCoroutineScope.launch {
+            mListener.idleChange(idle = mIdle, itemPos)
+        }
     }
 
     fun obtainStartDate(): Date? {

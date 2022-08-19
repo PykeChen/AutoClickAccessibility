@@ -83,6 +83,21 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun updateStartTime(minutesInFuture: Int) {
+        with(mBinding.etStartTime) {
+            val timeStamp =
+                System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(minutesInFuture.toLong())
+            val timeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            setText(timeFormat.format(Date(timeStamp)))
+        }
+        with(mBinding.etEndTime) {
+            val timeStamp =
+                System.currentTimeMillis() + TimeUnit.MINUTES.toMillis((minutesInFuture + 1).toLong())
+            val timeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            setText(timeFormat.format(Date(timeStamp)))
+        }
+    }
+
     private fun initView() {
         mBinding.layoutServiceOpen.setOnClickListener {
             goAccess()
@@ -98,16 +113,7 @@ class MainActivity : AppCompatActivity() {
             it.etClickPosX.saveTxt2Sp(KEY_X_POS)
             it.etClickPosY.saveTxt2Sp(KEY_Y_POS)
         }
-        with(mBinding.etStartTime) {
-            val timeStamp = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(2)
-            val timeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-            setText(timeFormat.format(Date(timeStamp)))
-        }
-        with(mBinding.etEndTime) {
-            val timeStamp = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(3)
-            val timeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-            setText(timeFormat.format(Date(timeStamp)))
-        }
+        updateStartTime(2)
         with(mBinding.accessibilityList) {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = mAdapter
@@ -119,17 +125,25 @@ class MainActivity : AppCompatActivity() {
             SPUtils.getInstance().put(KEY_SWITCH_ONE, isChecked)
         }
 
+        ViewModelMain.isShowSuspendWindow.observe(this) {
+            mBinding.btnOpenFloat.text = if (it == true) "开启悬浮窗" else "关闭悬浮窗"
+        }
         mBinding.btnOpenFloat.setOnClickListener {
             if (ViewModelMain.isShowSuspendWindow.value == true) {
-                (it as Button).text = "开启悬浮窗"
                 ViewModelMain.isShowSuspendWindow.postValue(false)
             } else {
                 Utils.checkSuspendedWindowPermission(this) {
                     ViewModelMain.isShowSuspendWindow.postValue(true)
-                    (it as Button).text = "关闭悬浮窗"
                 }
             }
-
+        }
+        mBinding.btnUpdateTime.setOnClickListener {
+            var count = (it.tag as Int?) ?: 0
+            if (count == 10) {
+                count = 0
+            }
+            updateStartTime( count * 2)
+            it.tag = ++count
         }
     }
 

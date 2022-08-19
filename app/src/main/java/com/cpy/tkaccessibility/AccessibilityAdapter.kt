@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cpy.tkaccessibility.accessibility.DiscountFetchService
 import com.cpy.tkaccessibility.accessibility.SendGiftService
 import com.cpy.tkaccessibility.databinding.ItemServiceBinding
-import com.cpy.tkaccessibility.utils.WakeHelper
-import com.cpy.tkaccessibility.utils.commonDialog
-import com.cpy.tkaccessibility.utils.debounceClick
-import com.cpy.tkaccessibility.utils.sendGiftConfigDialog
+import com.cpy.tkaccessibility.utils.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class AccessibilityAdapter(
     val context: Context,
@@ -84,7 +84,16 @@ class AccessibilityAdapter(
         notifyItemChanged(position)
         if (!idle) {
             (mServices[position].service as DiscountFetchService?)?.obtainStartDate()?.let {
+                if (ViewModelMain.isShowSuspendWindow.value == false) {
+                    Utils.checkSuspendedWindowPermission(context as Activity) {
+                        ViewModelMain.isShowSuspendWindow.postValue(true)
+                    }
+                }
                 startCountDownTimer(it.time - System.currentTimeMillis())
+                GlobalScope.launch {
+                    delay(200)
+                    Utils.startPupuMallActivity()
+                }
             }
         } else {
             countDownTm?.cancel()
@@ -96,7 +105,7 @@ class AccessibilityAdapter(
 
     private fun startCountDownTimer(millsInFuture: Long) {
         countDownTm?.cancel()
-        countDownTm =  object : CountDownTimer(millsInFuture, 100L) {
+        countDownTm = object : CountDownTimer(millsInFuture, 100L) {
             override fun onTick(millisUntilFinished: Long) {
                 ViewModelMain.timeMs.postValue(millisUntilFinished)
             }

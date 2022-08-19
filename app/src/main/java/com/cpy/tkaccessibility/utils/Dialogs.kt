@@ -28,7 +28,6 @@ fun AccessibilityAdapter.commonDialog(
             }
             mode.service.putExtraData(data.second)
             mode.service.switchIdleState()
-            idleChange(!idleState, position = position)
         }
     }
 }

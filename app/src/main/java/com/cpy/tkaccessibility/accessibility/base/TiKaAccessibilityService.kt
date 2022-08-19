@@ -27,8 +27,6 @@ class TiKaAccessibilityService : AccessibilityService(), ITiKaAccessibilityServi
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         Log.d("Accessibility", "onAccessibilityEvent ${event?.className}, type=${event?.eventType}")
         // 获取事件类型，在对应的事件类型中对相应的节点进行操作
-        rootInActiveWindow.getChild(0).getChild(0).getChild(0).getChild(0).getChild(0)
-        serviceInfo.flags and AccessibilityServiceInfo.FLAG_REQUEST_TOUCH_EXPLORATION_MODE
         when (event?.eventType) {
             //当通知栏发生改变时
             AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED ->
