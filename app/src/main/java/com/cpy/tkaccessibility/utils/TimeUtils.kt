@@ -26,6 +26,25 @@ object TimeUtils {
     fun timeBeforeNow1m(value: Date): Boolean {
         return (value.time - Date().time) > TimeUnit.MINUTES.toMillis(1)
     }
+
+    fun adjustTime(start: Date, mills:Long): Date {
+        return Date(start.time + mills)
+    }
+
+    fun adjustTime(oneHour: Boolean): Date {
+        val result = Calendar.getInstance().apply {
+            if (oneHour) {
+                val hour = get(Calendar.HOUR)
+                set(Calendar.HOUR, hour + 1)
+                set(Calendar.MINUTE, 0)
+            } else {
+                set(Calendar.MINUTE, 30)
+            }
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        return result.time
+    }
     // --------------------------------------------------------------
     // <editor-fold defaultState="collapsed" desc="Companion">
     // --------------------------------------------------------------
@@ -66,6 +85,6 @@ object TimeUtils {
 }
 
 
-fun Date.afterNow1m(): Boolean {
-    return (this.time - Date().time) > TimeUnit.MINUTES.toMillis(1)
+fun Date.afterNow10S(): Boolean {
+    return (this.time - Date().time) > TimeUnit.SECONDS.toMillis(10)
 }

@@ -5,8 +5,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.view.View
-import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -84,19 +83,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateStartTime(minutesInFuture: Int) {
+        val timeStamp =
+            System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(minutesInFuture.toLong())
+        updateStartTime(Date(timeStamp))
+    }
+
+    private fun updateStartTime(date: Date) {
+        val timeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         with(mBinding.etStartTime) {
-            val timeStamp =
-                System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(minutesInFuture.toLong())
-            val timeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-            setText(timeFormat.format(Date(timeStamp)))
-        }
-        with(mBinding.etEndTime) {
-            val timeStamp =
-                System.currentTimeMillis() + TimeUnit.MINUTES.toMillis((minutesInFuture + 1).toLong())
-            val timeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-            setText(timeFormat.format(Date(timeStamp)))
+            setText(timeFormat.format(date))
         }
     }
+
 
     private fun initView() {
         mBinding.layoutServiceOpen.setOnClickListener {
@@ -145,6 +143,22 @@ class MainActivity : AppCompatActivity() {
             updateStartTime( count * 2)
             it.tag = ++count
         }
+
+        mBinding.tvStartTime.setOnClickListener {
+            var count = (it.tag as Int?) ?: 0
+            it.tag = ++count
+            val adjustDate = TimeUtils.adjustTime(count % 2 == 0)
+            updateStartTime(adjustDate)
+        }
+
+        mBinding.tvEndTime.setOnClickListener {
+            var count = (it.tag as Int?) ?: 1
+            if (count == 10) {
+                count = -1
+            }
+            it.tag = ++count
+            mBinding.etEndTime.setText((count * 10).toString())
+        }
     }
 
 
@@ -171,7 +185,7 @@ class MainActivity : AppCompatActivity() {
             val resultMap = mutableMapOf<String, Any>()
             val className = it.etClassName.text.toString()
             val startTime = TimeUtils.time2Date(it.etStartTime.text.toString())
-            val endTime = TimeUtils.time2Date(it.etEndTime.text.toString())
+            val endAdjust = it.etEndTime.text.toString().toLongOrNull() ?: 0
             val increaseMs = it.etIncreaseMs.text.toString().toIntOrNull() ?: 0
             val xPos = it.etClickPosX.text.toString().toFloatOrNull()
             val yPos = it.etClickPosY.text.toString().toFloatOrNull()
@@ -185,18 +199,15 @@ class MainActivity : AppCompatActivity() {
                 toast("点击位置错误")
                 return error
             }
-            if (startTime == null || !startTime.afterNow1m()) {
-                toast("启动时间有误")
-                return error
-            }
-            if (endTime == null || endTime.before(startTime)) {
-                toast("结束时间有误,不能早于启动时间")
+            if (startTime == null || !startTime.afterNow10S()) {
+                toast("启动时间有误，需要晚于当前时间10s以上")
                 return error
             }
             if (clickDuration == null || clickDuration <= 0) {
                 toast("间隔时间必须>0")
                 return error
             }
+            val endTime = TimeUtils.adjustTime(startTime, endAdjust * 1000)
             val lastStartTime = Date(startTime.time + increaseMs)
             resultMap[KEY_CLASS_NAME] = className
             resultMap[KEY_START_DATE] = lastStartTime
