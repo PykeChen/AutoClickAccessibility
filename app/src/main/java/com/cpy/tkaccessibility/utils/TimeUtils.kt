@@ -12,6 +12,15 @@ import java.util.concurrent.TimeUnit
  */
 object TimeUtils {
 
+    fun time2Date(date: Date): String? {
+        val simpleDateFormat = SimpleDateFormat("MM-dd HH:mm:ss", Locale.getDefault())
+        return  return simpleDateFormat.format(date)
+    }
+
+    fun time2DateSeconds(date: Date): String? {
+        val simpleDateFormat = SimpleDateFormat("HH:mm:ss:SSS", Locale.getDefault())
+        return simpleDateFormat.format(date)
+    }
 
     fun time2Date(timeStr: String): Date? {
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())

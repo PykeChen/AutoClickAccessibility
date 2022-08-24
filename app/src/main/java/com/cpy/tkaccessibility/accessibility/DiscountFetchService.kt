@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import com.cpy.tkaccessibility.*
 import com.cpy.tkaccessibility.accessibility.base.TikaAccessibilitySubProxy
+import com.cpy.tkaccessibility.utils.TimeUtils
 import kotlinx.coroutines.*
 import java.util.*
 
@@ -47,8 +48,19 @@ class DiscountFetchService(private val itemPos: Int, private val mListener: ISer
     }
 
     private fun stopAutoClickTask() {
-        mTimerTask?.cancel()
-        mTimerTask = null
+        mTimerTask?.let {
+            toastIn("停止AutoC服务")
+            ViewModelMain.tips.postValue("")
+            it.cancel()
+            mTimerTask = null
+        }
+
+    }
+
+    private fun toastIn(toastV: String) {
+        mCoroutineScope.launch {
+            toast(toastV)
+        }
     }
 
     private fun startAutoClickTask() {
@@ -61,12 +73,14 @@ class DiscountFetchService(private val itemPos: Int, private val mListener: ISer
                 }
                 Log.d("Accessibility", "startAutoClickTask: count($mToastCount)")
                 if ((mToastCount * mTapDur) % mToastDuration == 0L) {
-                    toast("执行点击(x=$mXPos, y=$mYPos)")
+                    toastIn("执行点击(x=$mXPos, y=$mYPos)")
                 }
                 mToastCount++
                 performXYClick(mXPos, mYPos)
             }
         }
+        toastIn("启动任务(${TimeUtils.time2Date(mStartDate!!)})")
+        ViewModelMain.tips.postValue(TimeUtils.time2DateSeconds(mStartDate!!))
         mTimerTask = if (mStartDate!!.before(Date())) {
             kotlin.concurrent.timer(
                 TAG_NAME,

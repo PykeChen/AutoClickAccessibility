@@ -26,6 +26,7 @@ class SuspendWindowService : LifecycleService() {
     private lateinit var windowManager: WindowManager
     private var floatRootView: View? = null//悬浮窗View
     private var tvTime: TextView? = null//倒计时View
+    private var tvTip: TextView? = null//tips提示
 
 
     override fun onCreate() {
@@ -61,6 +62,12 @@ class SuspendWindowService : LifecycleService() {
                     tv.text = String.format("%02d:%02d\n%03d", mVal, sVal, ms)
                 }
             }
+
+            tips.observe(this@SuspendWindowService) {
+                tvTip?.let { tv ->
+                    tv.text = it
+                }
+            }
         }
     }
 
@@ -90,6 +97,7 @@ class SuspendWindowService : LifecycleService() {
         floatRootView = LayoutInflater.from(this).inflate(R.layout.activity_float_item, null)
         floatRootView?.setOnTouchListener(ItemViewTouchListener(layoutParam, windowManager))
         tvTime = floatRootView?.findViewById(R.id.tv_time_ms)
+        tvTip = floatRootView?.findViewById(R.id.tv_title)
         // 将悬浮窗控件添加到WindowManager
         windowManager.addView(floatRootView, layoutParam)
 

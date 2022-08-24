@@ -20,4 +20,8 @@ object ViewModelMain : ViewModel() {
     //倒计时时间ms数
     var timeMs = MutableLiveData<Long>()
 
+    //显示tips
+    var tips = MutableLiveData<String>()
+
+
 }

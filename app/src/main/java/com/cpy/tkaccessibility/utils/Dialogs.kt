@@ -21,13 +21,17 @@ fun AccessibilityAdapter.commonDialog(
         val btnText =
             getStringKtx(if (idleState) R.string.accessibility_open else R.string.accessibility_close)
         positiveButton(text = btnText) {
-            val data = obtainExtraData.invoke()
-            if (!data.first) {
-                toast("参数错误，请检查参数!")
-                return@positiveButton
+            if (idleState) {
+                val data = obtainExtraData.invoke()
+                if (!data.first) {
+                    toast("参数错误，请检查参数!")
+                    return@positiveButton
+                }
+                mode.service.putExtraData(data.second)
+                mode.service.switchIdleState()
+            } else {
+                mode.service.switchIdleState()
             }
-            mode.service.putExtraData(data.second)
-            mode.service.switchIdleState()
         }
     }
 }

@@ -48,5 +48,5 @@ const val RoomGiftPanel = "${TikaIdRes}cl_gift_panel"
 const val RoomGiftBanner = "${TikaIdRes}banner_gift"
 
 fun toast(content: String): Unit {
-    Toast.makeText(getAppContext(), content, Toast.LENGTH_SHORT).show()
+    Toast.makeText(getAppContext(), content, Toast.LENGTH_LONG).show()
 }
